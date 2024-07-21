@@ -2,13 +2,14 @@ import fetch from 'node-fetch';
 
 const IP = '10.0.0.115';
 const name = 'Wind Speed';
+const station = 'WPOW1';
 
 function metersPerSecondToMph(ms) {
   return ms * 2.23694
 }
 
 async function setKublet() {
-  const weatherURL = "https://www.ndbc.noaa.gov/data/realtime2/WPOW1.txt";
+  const weatherURL = `https://www.ndbc.noaa.gov/data/realtime2/${station}.txt`;
   const wxResponse = await fetch(weatherURL);;
   const wxBody = await wxResponse.text();
   const wxArray = wxBody.split('\n');

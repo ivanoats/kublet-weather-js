@@ -12,11 +12,10 @@ async function setKublet() {
   const wxResponse = await fetch(weatherURL);;
   const wxBody = await wxResponse.text();
   const wxArray = wxBody.split('\n');
-  const wxData = wxArray[2].split(' ');
-  console.log(wxData);
-  const windSpeedMS = parseFloat(wxData[8]);
-  console.log(wxData[8]);
-
+  const wxRow = wxArray[2]
+  const wxRowClean = wxRow.replace(/\s+/g, ' '); // remove extra whitespace
+  const wxData = wxRowClean.split(' ');
+  const windSpeedMS = parseFloat(wxData[6]);
   const windSpeed = Math.round(metersPerSecondToMph(windSpeedMS));
 
   var kubletUrl = `http://${IP}/update/?value=${windSpeed}&name=${name}`;
@@ -33,4 +32,5 @@ async function setKublet() {
 
 const numberOfSeconds = 120;
 const interval = numberOfSeconds * 1000;
+setKublet();
 setInterval(setKublet, interval);
